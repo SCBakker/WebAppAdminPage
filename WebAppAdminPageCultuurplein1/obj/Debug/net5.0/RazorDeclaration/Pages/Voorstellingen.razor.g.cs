@@ -82,8 +82,36 @@ using WebAppAdminPageCultuurplein1.Shared;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/counter")]
-    public partial class Counter : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 2 "C:\Users\PC_01\Documents\WebAppAdminPage\WebAppAdminPageCultuurplein1\Pages\Voorstellingen.razor"
+using System.IO;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "C:\Users\PC_01\Documents\WebAppAdminPage\WebAppAdminPageCultuurplein1\Pages\Voorstellingen.razor"
+using WebAppAdminPageCultuurplein1.Data;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\PC_01\Documents\WebAppAdminPage\WebAppAdminPageCultuurplein1\Pages\Voorstellingen.razor"
+using WebAppAdminPageCultuurplein1.Services;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\PC_01\Documents\WebAppAdminPage\WebAppAdminPageCultuurplein1\Pages\Voorstellingen.razor"
+using WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/voorstellingen")]
+    public partial class Voorstellingen : OwningComponentBase<WebAppAdminPageCultuurplein1.Services.Interfaceservice>
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -91,13 +119,39 @@ using WebAppAdminPageCultuurplein1.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 9 "C:\Users\PC_01\Documents\WebAppAdminPage\WebAppAdminPageCultuurplein1\Pages\Counter.razor"
-       
-    private int currentCount = 0;
+#line 53 "C:\Users\PC_01\Documents\WebAppAdminPage\WebAppAdminPageCultuurplein1\Pages\Voorstellingen.razor"
+ 
 
-    private void IncrementCount()
+
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    List<Shows> shows;
+
+
+    protected override async Task OnInitializedAsync()
     {
-        currentCount++;
+        var user = (await authenticationStateTask).User;
+        shows = await @Service.GetShowAsync(user.Identity.Name);
+
+    }
+
+
+    string convertImageToDisplay(byte[] Afbeelding)
+    {
+        if (Afbeelding != null)
+        {
+            var base64 = Convert.ToBase64String(Afbeelding);
+            var fs = string.Format("data:image/jpg;base64,{0}", base64);
+            return fs;
+        }
+        return "";
+    }
+
+    protected override void OnInitialized()
+    {
+        shows = Service.DisplayImages();
     }
 
 #line default
