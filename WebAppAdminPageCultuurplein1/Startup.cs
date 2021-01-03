@@ -14,10 +14,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAppAdminPageCultuurplein1.Areas.Identity;
-using WebAppAdminPageCultuurplein1.Data;
+using WebAppAdminPageCultuurplein1.Data; 
+using WebAppAdminPageCultuurplein1.Services;
+using WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1;
 
 namespace WebAppAdminPageCultuurplein1
 {
+    
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -38,9 +41,14 @@ namespace WebAppAdminPageCultuurplein1
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            services
+                .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>
+                >();
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddScoped<Interfaceservice>();
+            services.AddDbContext<WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1.AdminContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,5 +81,7 @@ namespace WebAppAdminPageCultuurplein1
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
+    
     }
 }
+
