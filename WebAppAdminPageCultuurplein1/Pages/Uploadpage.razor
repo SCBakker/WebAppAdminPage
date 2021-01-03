@@ -1,0 +1,244 @@
+﻿@page "/upload"
+@using WebAppAdminPageCultuurplein1.Data
+@using BlazorInputFile
+@using System.IO
+@using WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1
+
+@inherits OwningComponentBase<WebAppAdminPageCultuurplein1.Services.Interfaceservice>
+
+<h1>Voorstellingen instellen</h1>
+
+
+@if (shows == null)
+{
+    <p><en>Loading...</en></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Voorstelling
+                </th>
+                <th>
+                    Beschrijving
+                </th>
+                <th>
+                    Afbeelding
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var show in shows)
+            {
+                <tr>
+                    <td>
+                        @show.Voorstelling
+                    </td>
+                    <td>
+                        @show.Beschrijving
+                    </td>
+                    <td>
+                        <img src="@convertImageToDisplay(show.Afbeelding)" width="100px;" />
+                    </td>
+                    <td>
+                        <button class="btn btn-primary"
+                                @onclick="(() => EditShow(show))">
+                            Bewerken
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p>
+        <button class="btn btn-primary"
+                @onclick="AddNewShow">
+            Voorstelling toevoegen
+        </button>
+    </p>
+
+    @if (ShowPopup)
+    {
+        <div class="modal" tabindex="-1" style="display:block" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title"> Voorstelling aanpassen</h3>
+
+                        <button type="button" class="close"
+                                @onclick="ClosePopup">
+                            <span aria-hidden="true">X</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input class="form-control" type="text"
+                               placeholder="Naam voorstelling"
+                               @bind="objAdminPage.Voorstelling" />
+                        <input class="form-control" type="text"
+                               placeholder="Beschrijving voorstelling"
+                               @bind="objAdminPage.Beschrijving" />
+
+                        <EditForm Model="@objAdminPage" OnValidSubmit="@Validsubmit">
+                            <BlazorInputFile.InputFile OnChange="HandleFileSelected">
+                            </BlazorInputFile.InputFile>
+                            <button class="btn btn-primary" type="submit" insert>
+                                Afbeelding opslaan
+                            </button>
+                        </EditForm>
+                        <button class="btn btn-primary"
+                                @onclick="SaveShow">
+                            Opslaan
+                        </button>
+                        @if (objAdminPage.Id > 0)
+                        {
+                            <button class="btn btn-primary"
+                                    @onclick="DeleteShow">
+                                Verwijderen
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+}
+
+
+@code
+{
+    bool ShowPopup = false;
+
+    Shows objAdminPage = new Shows();
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    List<Shows> shows;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await authenticationStateTask).User;
+
+        shows = await @Service.GetShowAsync(user.Identity.Name);
+    }
+
+    void ClosePopup()
+    {
+        // Zorgen dat de popup
+        // gesloten kan worden
+        ShowPopup = false;
+    }
+
+    void AddNewShow()
+    {
+        // Nieuwe voorstelling maken
+        objAdminPage = new Shows();
+        // Id op 0 zetten zodat het systeem
+        // ziet dat het een nieuwe entry is
+        objAdminPage.Id = 0;
+
+        // Popup moet geopend worden
+        ShowPopup = true;
+    }
+
+    async Task SaveShow()
+    {
+        // Popup moet gesloten worden
+        ShowPopup = false;
+        var user = (await authenticationStateTask).User;
+
+        // Een nieuwe voorstelling heeft als id 0
+        if (objAdminPage.Id == 0)
+        {
+            // Een nieuwe voorstelling toevoegen
+            Shows objNewShow = new Shows();
+            objNewShow.Voorstelling = objAdminPage.Voorstelling;
+            objNewShow.Beschrijving = objAdminPage.Beschrijving;
+            objNewShow.Afbeelding = objAdminPage.Afbeelding;
+
+            // Voorstelling opslaan
+            var result =
+                @Service.CreateShowAsync(objAdminPage);
+
+        }
+        else
+        {
+            // Updaten
+            var result =
+                @Service.UpdateShowAsync(objAdminPage);
+        }
+
+        // Refreshen
+        shows =
+        await @Service.GetShowAsync(objAdminPage.Voorstelling);
+
+    }
+
+    void EditShow(Shows adminPage)
+    {
+        // Als de geselecteerde voorstelling
+        // de huidige voorstelling is
+        objAdminPage = adminPage;
+
+        // Moet het popupscherm geopend worden
+        ShowPopup = true;
+    }
+
+    async Task DeleteShow()
+    {
+        // Popup moet gesloten worden
+        ShowPopup = false;
+
+        var user = (await authenticationStateTask).User;
+
+        // De voorstelling wordt verwijderd
+        var result = @Service.DeleteShowAsync(objAdminPage);
+
+        // Refreshen
+        shows =
+            await @Service.GetShowAsync(objAdminPage.Voorstelling);
+    }
+
+    string convertImageToDisplay(byte[] Afbeelding)
+    {
+        if (Afbeelding != null)
+        {
+            var base64 = Convert.ToBase64String(Afbeelding);
+            var fs = string.Format("data:image/jpg;base64,{0}", base64);
+            return fs;
+        }
+        return "";
+    }
+
+    public byte[] Imguploaded { get; set; }
+
+    protected override void OnInitialized()
+    {
+        shows = Service.DisplayImages();
+    }
+
+    void Validsubmit()
+    {
+        objAdminPage.Id = 0;
+        objAdminPage.Afbeelding = Imguploaded;
+        Service.Uploadimg(objAdminPage);
+
+    }
+
+
+    async Task HandleFileSelected(IFileListEntry[] files)
+    {
+        var file = files.FirstOrDefault();
+        if (file != null)
+        {
+            var ms = new MemoryStream();
+            await file.Data.CopyToAsync(ms);
+            Imguploaded = ms.ToArray();
+        }
+    }
+}
