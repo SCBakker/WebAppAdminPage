@@ -6,106 +6,113 @@
 
 @inherits OwningComponentBase<WebAppAdminPageCultuurplein1.Services.Interfaceservice>
 
-<h1>Voorstellingen instellen</h1>
+<AuthorizeView>
+    <Authorized>
 
+        @if (shows == null)
+        {
+            <p><en>Loading...</en></p>
+        }
+        else
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Voorstelling
+                        </th>
+                        <th>
+                            Beschrijving
+                        </th>
+                        <th>
+                            Afbeelding
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var show in shows)
+                    {
+                        <tr>
+                            <td>
+                                @show.Voorstelling
+                            </td>
+                            <td>
+                                @show.Beschrijving
+                            </td>
+                            <td>
+                                <img src="@convertImageToDisplay(show.Afbeelding)" width="100px;" />
+                            </td>
+                            <td>
+                                <button class="btn btn-primary"
+                                        @onclick="(() => EditShow(show))">
+                                    Bewerken
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <p>
+                <button class="btn btn-primary"
+                        @onclick="AddNewShow">
+                    Voorstelling toevoegen
+                </button>
+            </p>
 
-@if (shows == null)
-{
-    <p><en>Loading...</en></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Voorstelling
-                </th>
-                <th>
-                    Beschrijving
-                </th>
-                <th>
-                    Afbeelding
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var show in shows)
+            @if (ShowPopup)
             {
-                <tr>
-                    <td>
-                        @show.Voorstelling
-                    </td>
-                    <td>
-                        @show.Beschrijving
-                    </td>
-                    <td>
-                        <img src="@convertImageToDisplay(show.Afbeelding)" width="100px;" />
-                    </td>
-                    <td>
-                        <button class="btn btn-primary"
-                                @onclick="(() => EditShow(show))">
-                            Bewerken
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <p>
-        <button class="btn btn-primary"
-                @onclick="AddNewShow">
-            Voorstelling toevoegen
-        </button>
-    </p>
+                <div class="modal" tabindex="-1" style="display: block" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title"> Voorstelling aanpassen</h3>
 
-    @if (ShowPopup)
-    {
-        <div class="modal" tabindex="-1" style="display:block" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title"> Voorstelling aanpassen</h3>
+                                <button type="button" class="close"
+                                        @onclick="ClosePopup">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                            </div>
 
-                        <button type="button" class="close"
-                                @onclick="ClosePopup">
-                            <span aria-hidden="true">X</span>
-                        </button>
-                    </div>
+                            <div class="modal-body">
+                                <input class="form-control" type="text"
+                                       placeholder="Naam voorstelling"
+                                       @bind="objAdminPage.Voorstelling" />
+                                <input class="form-control" type="text"
+                                       placeholder="Beschrijving voorstelling"
+                                       @bind="objAdminPage.Beschrijving" />
 
-                    <div class="modal-body">
-                        <input class="form-control" type="text"
-                               placeholder="Naam voorstelling"
-                               @bind="objAdminPage.Voorstelling" />
-                        <input class="form-control" type="text"
-                               placeholder="Beschrijving voorstelling"
-                               @bind="objAdminPage.Beschrijving" />
-
-                        <EditForm Model="@objAdminPage" OnValidSubmit="@Validsubmit">
-                            <BlazorInputFile.InputFile OnChange="HandleFileSelected">
-                            </BlazorInputFile.InputFile>
-                            <button class="btn btn-primary" type="submit" insert>
-                                Afbeelding opslaan
-                            </button>
-                        </EditForm>
-                        <button class="btn btn-primary"
-                                @onclick="SaveShow">
-                            Opslaan
-                        </button>
-                        @if (objAdminPage.Id > 0)
-                        {
-                            <button class="btn btn-primary"
-                                    @onclick="DeleteShow">
-                                Verwijderen
-                            </button>
-                        }
+                                <EditForm Context="Edit" Model="@objAdminPage" OnValidSubmit="@Validsubmit">
+                                    <BlazorInputFile.InputFile OnChange="HandleFileSelected">
+                                    </BlazorInputFile.InputFile>
+                                    <button class="btn btn-primary" type="submit" insert>
+                                        Afbeelding opslaan
+                                    </button>
+                                </EditForm>
+                                <button class="btn btn-primary"
+                                        @onclick="SaveShow">
+                                    Opslaan
+                                </button>
+                                @if (objAdminPage.Id > 0)
+                                {
+                                    <button class="btn btn-primary"
+                                            @onclick="DeleteShow">
+                                        Verwijderen
+                                    </button>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    }
+            }
 
-}
+        }
+
+    </Authorized>
+    <NotAuthorized>
+        <p>U moet ingelogd zijn om van deze functionaliteit gebruik te maken</p>
+    </NotAuthorized>
+</AuthorizeView>
+
 
 
 @code
