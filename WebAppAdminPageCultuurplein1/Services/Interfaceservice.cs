@@ -9,11 +9,14 @@ namespace WebAppAdminPageCultuurplein1.Services
     {
         private readonly AdminContext _context;
 
-
+        // Geeft de afbeelding uit de database weer
         public List<Shows> DisplayImages()
         {
             return _context.Shows.ToList();
         }
+
+        // Maakt een variabele ic aan waarmee een afbeelding
+        // geupload kan worden naar de database
         public bool Uploadimg(Shows ic)
         {
             _context.Shows.Add(ic);
@@ -26,6 +29,8 @@ namespace WebAppAdminPageCultuurplein1.Services
             _context = context;
         }
 
+        // Maakt een lijst van alle voorstellingen die in de database staan
+        // en geeft deze terug aan de frontend
         public Task<List<Shows>>
             GetShowAsync(string strCurrentShow)
         {
@@ -36,6 +41,9 @@ namespace WebAppAdminPageCultuurplein1.Services
                  select adminPage).ToList();
             return Task.FromResult(colAdminPage);
         }
+
+        // Maakt een nieuwe show aan doormiddel van objAdminPage
+        // en plaatst deze in de database
         public Task<Shows>
             CreateShowAsync(Shows objAdminPage)
         {
@@ -46,6 +54,8 @@ namespace WebAppAdminPageCultuurplein1.Services
 
         }
 
+        // Haalt een bestaande voorstelling uit de database en 
+        // biedt de mogelijkheid deze aan te passen
         public Task<bool>
             UpdateShowAsync(Shows objAdminPage)
         {
@@ -71,6 +81,8 @@ namespace WebAppAdminPageCultuurplein1.Services
             return Task.FromResult(true);
         }
 
+        // Haalt een voorstelling uit de database en 
+        // biedt de mogelijkheid deze te verwijderen
         public Task<bool>
             DeleteShowAsync(Shows objAdminPage)
         {
