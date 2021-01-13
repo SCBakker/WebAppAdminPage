@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-
+    // Auto Generated
 namespace WebAppAdminPageCultuurplein1.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration

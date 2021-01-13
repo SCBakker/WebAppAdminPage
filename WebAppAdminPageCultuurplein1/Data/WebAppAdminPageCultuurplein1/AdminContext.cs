@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1
 {
+    // Aangemaakt bij reverse Engineering (EF Power Tool) 
     public partial class AdminContext : DbContext
     {
         public AdminContext()
@@ -18,6 +19,7 @@ namespace WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1
         {
         }
 
+        // Gebruikt Data set
         public virtual DbSet<Shows> Shows { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

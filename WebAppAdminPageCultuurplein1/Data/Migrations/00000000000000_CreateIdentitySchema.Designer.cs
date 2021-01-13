@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using WebAppAdminPageCultuurplein1.Data;
+using WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1;
 
 namespace WebAppAdminPageCultuurplein1.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AdminContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
