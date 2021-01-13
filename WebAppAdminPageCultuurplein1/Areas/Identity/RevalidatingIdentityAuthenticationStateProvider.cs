@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components;
+
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebAppAdminPageCultuurplein1.Areas.Identity
-{
+{ // Auto Generated Page
     public class RevalidatingIdentityAuthenticationStateProvider<TUser>
         : RevalidatingServerAuthenticationStateProvider where TUser : class
     {

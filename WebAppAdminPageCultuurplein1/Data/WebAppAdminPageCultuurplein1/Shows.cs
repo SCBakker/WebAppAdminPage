@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1
 {
+    // Data set aangemaakt voor het opvullen van de database en het weergeven van data.
     public partial class Shows
     {
         public int Id { get; set; }
