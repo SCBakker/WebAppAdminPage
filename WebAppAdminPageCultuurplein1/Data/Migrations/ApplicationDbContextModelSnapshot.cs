@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using WebAppAdminPageCultuurplein1.Data;
+using WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1;
 
 namespace WebAppAdminPageCultuurplein1.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    //Kleine aanpassing DB context
+    [DbContext(typeof(AdminContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
