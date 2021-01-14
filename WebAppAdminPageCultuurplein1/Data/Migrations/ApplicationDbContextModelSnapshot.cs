@@ -10,7 +10,7 @@ using WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1;
 namespace WebAppAdminPageCultuurplein1.Data.Migrations
 {
     //Kleine aanpassing DB context
-    [DbContext(typeof(AdminContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
