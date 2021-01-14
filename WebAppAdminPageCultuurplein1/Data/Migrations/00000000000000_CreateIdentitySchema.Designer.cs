@@ -10,7 +10,7 @@ using WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1;
 
 namespace WebAppAdminPageCultuurplein1.Data.Migrations
 {
-    [DbContext(typeof(AdminContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
