@@ -33,6 +33,11 @@ h1 {
 
 }
 
+btn btn-primary {
+    width: auto;
+    height: auto;
+}
+
 .btn-sep {
     padding: 25px 60px 25px 120px;
 }
@@ -70,7 +75,7 @@ h1 {
 }
 
 .icon-music:before {
-    content: "\266B";
+    content: "\270E";
 }
 
 .container {
@@ -188,6 +193,8 @@ td {
     border: 1px solid #ddd;
     padding: 8px;
     size: auto;
+    width: auto;
+    
 }
 
 th {
