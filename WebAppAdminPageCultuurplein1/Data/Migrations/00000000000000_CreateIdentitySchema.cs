@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-    // Auto Generated
+    // Automatisch generated pagine, Hierin worden de database tabellen voor de login functie aangemaakt. dit gebeurd automatisch.
 namespace WebAppAdminPageCultuurplein1.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration

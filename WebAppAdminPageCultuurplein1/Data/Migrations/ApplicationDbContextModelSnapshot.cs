@@ -9,7 +9,7 @@ using WebAppAdminPageCultuurplein1DB.Data.WebAppAdminPageCultuurplein1;
 
 namespace WebAppAdminPageCultuurplein1.Data.Migrations
 {
-    //Kleine aanpassing DB context
+    //Kleine aanpassing DB context, Automatisch aangemaakte pagina word gebruikt voor het geven van eigenschappen aan onderdelen van de database (word alleen gebruikt voor de login) 
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
