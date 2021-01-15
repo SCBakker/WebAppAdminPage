@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace WebAppAdminPageCultuurplein1.Areas.Identity.Pages.Account
 {
+    //scaffolded file is automatisch aangemaakt bij het gebruiken van de login functie. 
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {

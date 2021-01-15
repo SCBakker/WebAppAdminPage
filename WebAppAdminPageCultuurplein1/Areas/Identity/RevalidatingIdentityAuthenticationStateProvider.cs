@@ -11,7 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebAppAdminPageCultuurplein1.Areas.Identity
-{ // Auto Generated Page
+{ // Auto Generated Page wordt gebruikt voor de login functie.
+
     public class RevalidatingIdentityAuthenticationStateProvider<TUser>
         : RevalidatingServerAuthenticationStateProvider where TUser : class
     {

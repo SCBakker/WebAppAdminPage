@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebAppAdminPageCultuurplein1
 {
+    // start het programma op doormiddel van de startup.cs
     public class Program
     {
         public static void Main(string[] args)
